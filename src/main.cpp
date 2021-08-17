@@ -22,7 +22,7 @@
 #define PHYSAC_NO_THREADS
 #include "Physics.hpp"
 
-#define VELOCITY    0.5f
+#define VELOCITY 0.5f
 
 int main(void)
 {
@@ -33,7 +33,7 @@ int main(void)
 
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     raylib::Window w(screenWidth, screenHeight, "Physac - Body controller demo");
-    
+
     // Physac logo drawing position
     int logoX = screenWidth - MeasureText("Physac", 30) - 10;
     int logoY = 15;
@@ -42,11 +42,11 @@ int main(void)
     raylib::Physics physics;
 
     // Create floor and walls rectangle physics body
-    PhysicsBody floor = physics.CreateBodyRectangle(Vector2{ screenWidth/2, screenHeight }, screenWidth, 100, 10);
-    PhysicsBody platformLeft = physics.CreateBodyRectangle(Vector2{ screenWidth*0.25f, screenHeight*0.6f }, screenWidth*0.25f, 10, 10);
-    PhysicsBody platformRight = physics.CreateBodyRectangle(Vector2{ screenWidth*0.75f, screenHeight*0.6f }, screenWidth*0.25f, 10, 10);
-    PhysicsBody wallLeft = physics.CreateBodyRectangle(Vector2{ -5, screenHeight/2 }, 10, screenHeight, 10);
-    PhysicsBody wallRight = physics.CreateBodyRectangle(Vector2{ screenWidth + 5, screenHeight/2 }, 10, screenHeight, 10);
+    PhysicsBody floor = physics.CreateBodyRectangle(Vector2{screenWidth / 2, screenHeight}, screenWidth, 100, 10);
+    PhysicsBody platformLeft = physics.CreateBodyRectangle(Vector2{screenWidth * 0.25f, screenHeight * 0.6f}, screenWidth * 0.25f, 10, 10);
+    PhysicsBody platformRight = physics.CreateBodyRectangle(Vector2{screenWidth * 0.75f, screenHeight * 0.6f}, screenWidth * 0.25f, 10, 10);
+    PhysicsBody wallLeft = physics.CreateBodyRectangle(Vector2{-5, screenHeight / 2}, 10, screenHeight, 10);
+    PhysicsBody wallRight = physics.CreateBodyRectangle(Vector2{screenWidth + 5, screenHeight / 2}, 10, screenHeight, 10);
 
     // Disable dynamics to floor and walls physics bodies
     floor->enabled = false;
@@ -56,19 +56,19 @@ int main(void)
     wallRight->enabled = false;
 
     // Create movement physics body
-    PhysicsBody body = physics.CreateBodyRectangle(Vector2{ screenWidth/2, screenHeight/2 }, 50, 50, 1);
-    body->freezeOrient = true;  // Constrain body rotation to avoid little collision torque amounts
-    
+    PhysicsBody body = physics.CreateBodyRectangle(Vector2{screenWidth / 2, screenHeight / 2}, 50, 50, 1);
+    body->freezeOrient = true; // Constrain body rotation to avoid little collision torque amounts
+
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
 
     // Main game loop
-    while (!w.ShouldClose())    // Detect window close button or ESC key
+    while (!w.ShouldClose()) // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
         physics.RunStep();
-        
+
         // Horizontal movement input
         if (IsKeyDown(KEY_RIGHT))
             body->velocity.x = VELOCITY;
@@ -77,52 +77,52 @@ int main(void)
 
         // Vertical movement input checking if player physics body is grounded
         if (IsKeyDown(KEY_UP) && body->isGrounded)
-            body->velocity.y = -VELOCITY*4;
+            body->velocity.y = -VELOCITY * 4;
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-            ClearBackground(BLACK);
+        ClearBackground(BLACK);
 
-            DrawFPS(screenWidth - 90, screenHeight - 30);
-        DrawText("IDLE KING!", screenWidth/2 - 120, 100, 50, LIGHTGRAY);
+        DrawFPS(screenWidth - 90, screenHeight - 30);
+        DrawText("IDLE KING!", screenWidth / 2 - 120, 100, 50, LIGHTGRAY);
 
-            // Draw created physics bodies
-            int bodiesCount = GetPhysicsBodiesCount();
-            for (int i = 0; i < bodiesCount; i++)
+        // Draw created physics bodies
+        int bodiesCount = GetPhysicsBodiesCount();
+        for (int i = 0; i < bodiesCount; i++)
+        {
+            PhysicsBody body = GetPhysicsBody(i);
+
+            int vertexCount = GetPhysicsShapeVerticesCount(i);
+            for (int j = 0; j < vertexCount; j++)
             {
-                PhysicsBody body = GetPhysicsBody(i);
+                // Get physics bodies shape vertices to draw lines
+                // Note: GetPhysicsShapeVertex() already calculates rotation transformations
+                Vector2 vertexA = GetPhysicsShapeVertex(body, j);
 
-                int vertexCount = GetPhysicsShapeVerticesCount(i);
-                for (int j = 0; j < vertexCount; j++)
-                {
-                    // Get physics bodies shape vertices to draw lines
-                    // Note: GetPhysicsShapeVertex() already calculates rotation transformations
-                    Vector2 vertexA = GetPhysicsShapeVertex(body, j);
+                int jj = (((j + 1) < vertexCount) ? (j + 1) : 0); // Get next vertex or first to close the shape
+                Vector2 vertexB = GetPhysicsShapeVertex(body, jj);
 
-                    int jj = (((j + 1) < vertexCount) ? (j + 1) : 0);   // Get next vertex or first to close the shape
-                    Vector2 vertexB = GetPhysicsShapeVertex(body, jj);
-
-                    DrawLineV(vertexA, vertexB, GREEN);     // Draw a line between two vertex positions
-                }
+                DrawLineV(vertexA, vertexB, GREEN); // Draw a line between two vertex positions
             }
+        }
 
-            DrawText("Use 'ARROWS' to move player", 10, 10, 10, WHITE);
+        DrawText("Use 'ARROWS' to move player", 10, 10, 10, WHITE);
 
-            DrawText("Physac", logoX, logoY, 30, WHITE);
-            DrawText("Powered by", logoX + 50, logoY - 7, 10, WHITE);
+        DrawText("Physac", logoX, logoY, 30, WHITE);
+        DrawText("Powered by", logoX + 50, logoY - 7, 10, WHITE);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
 
     // De-Initialization
-    //--------------------------------------------------------------------------------------   
-    ClosePhysics();       // Unitialize physics
-    
-    CloseWindow();        // Close window and OpenGL context
+    //--------------------------------------------------------------------------------------
+    ClosePhysics(); // Unitialize physics
+
+    CloseWindow(); // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
     return 0;
