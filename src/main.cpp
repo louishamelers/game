@@ -24,8 +24,6 @@
 #include <Physics.hpp>
 #include "headers/Player.hpp"
 
-#define VELOCITY 0.5f
-
 int main(void)
 {
     // Initialization
@@ -41,9 +39,9 @@ int main(void)
 
     // Create floor and walls rectangle physics body
     PhysicsBody floor = physics.CreateBodyRectangle(Vector2{screenWidth / 2, screenHeight}, screenWidth, 100, 10);
-    PhysicsBody platformLeft = physics.CreateBodyRectangle(Vector2{screenWidth * 0.25f, screenHeight * 0.6f}, screenWidth * 0.25f, 10, 10);
+    PhysicsBody platformLeft = physics.CreateBodyRectangle(Vector2{screenWidth * 0.25f, screenHeight * 0.8f}, screenWidth * 0.25f, 10, 10);
     PhysicsBody platformRight = physics.CreateBodyRectangle(Vector2{screenWidth * 0.75f, screenHeight * 0.6f}, screenWidth * 0.25f, 10, 10);
-    PhysicsBody wallLeft = physics.CreateBodyRectangle(Vector2{-5, screenHeight / 2}, 10, screenHeight, 10);
+    PhysicsBody wallLeft = physics.CreateBodyRectangle(Vector2{-6, screenHeight / 2}, 10, screenHeight, 10);
     PhysicsBody wallRight = physics.CreateBodyRectangle(Vector2{screenWidth + 5, screenHeight / 2}, 10, screenHeight, 10);
 
     // Disable dynamics to floor and walls physics bodies
@@ -66,14 +64,16 @@ int main(void)
         //----------------------------------------------------------------------------------
         physics.RunStep();
 
-        player.handleInput(VELOCITY);
+
+        player.handleInput(0.2f);
+        player.spriteController.update();
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        ClearBackground(BLACK);
+        ClearBackground(RAYWHITE);
 
         DrawText("IDLE KING!", screenWidth / 2 - 120, 100, 50, LIGHTGRAY);
 
@@ -96,6 +96,7 @@ int main(void)
                 DrawLineV(vertexA, vertexB, GREEN); // Draw a line between two vertex positions
             }
         }
+        player.draw();
 
         EndDrawing();
         //----------------------------------------------------------------------------------
