@@ -23,6 +23,8 @@
 #include <raylib-cpp.hpp>
 #include <Physics.hpp>
 #include "headers/Player.hpp"
+#include "headers/characterStateMachine/machineStates.hpp"
+#include "headers/characterStateMachine/machine.hpp"
 
 int main(void)
 {
@@ -55,6 +57,20 @@ int main(void)
 
     Player player(&physics);
     player.physicsBody->position = {screenWidth / 2, screenHeight / 2};
+
+    // ----------------------------------------------------------------------------------------------------------------------------- TRASH
+
+    std::cout << "STATE MACHINE DEMO!" << std::endl;
+    Machine m1(10);
+    std::cout << m1.getStock() << std::endl;
+    m1.sell(5);
+    std::cout << m1.getStock() << std::endl;
+    m1.sell(5);
+    std::cout << m1.getStock() << std::endl;
+    m1.sell(5);
+    std::cout << m1.getStock() << std::endl;
+
+    // ---------------------------------------------------------------------------------------------------------------------------- /TRASH
 
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
