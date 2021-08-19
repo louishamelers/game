@@ -15,12 +15,14 @@
 *
 ********************************************************************************************/
 
-#include <iostream>
-#include "raylib-cpp.hpp"
-
 #define PHYSAC_IMPLEMENTATION
 #define PHYSAC_NO_THREADS
-#include "Physics.hpp"
+
+#include <vector>
+#include <iostream>
+#include <raylib-cpp.hpp>
+#include <Physics.hpp>
+#include "headers/Player.hpp"
 
 #define VELOCITY 0.5f
 
@@ -33,10 +35,6 @@ int main(void)
 
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     raylib::Window w(screenWidth, screenHeight, "Physac - Body controller demo");
-
-    // Physac logo drawing position
-    int logoX = screenWidth - MeasureText("Physac", 30) - 10;
-    int logoY = 15;
 
     // Initialize physics and default physics bodies
     raylib::Physics physics;
@@ -55,9 +53,8 @@ int main(void)
     wallLeft->enabled = false;
     wallRight->enabled = false;
 
-    // Create movement physics body
-    PhysicsBody body = physics.CreateBodyRectangle(Vector2{screenWidth / 2, screenHeight / 2}, 50, 50, 1);
-    body->freezeOrient = true; // Constrain body rotation to avoid little collision torque amounts
+    Player player(&physics);
+    player.physicsBody->position = {screenWidth / 2, screenHeight / 2};
 
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
@@ -69,15 +66,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         physics.RunStep();
 
-        // Horizontal movement input
-        if (IsKeyDown(KEY_RIGHT))
-            body->velocity.x = VELOCITY;
-        else if (IsKeyDown(KEY_LEFT))
-            body->velocity.x = -VELOCITY;
-
-        // Vertical movement input checking if player physics body is grounded
-        if (IsKeyDown(KEY_UP) && body->isGrounded)
-            body->velocity.y = -VELOCITY * 4;
+        player.handleInput(VELOCITY);
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -86,7 +75,6 @@ int main(void)
 
         ClearBackground(BLACK);
 
-        DrawFPS(screenWidth - 90, screenHeight - 30);
         DrawText("IDLE KING!", screenWidth / 2 - 120, 100, 50, LIGHTGRAY);
 
         // Draw created physics bodies
@@ -108,11 +96,6 @@ int main(void)
                 DrawLineV(vertexA, vertexB, GREEN); // Draw a line between two vertex positions
             }
         }
-
-        DrawText("Use 'ARROWS' to move player", 10, 10, 10, WHITE);
-
-        DrawText("Physac", logoX, logoY, 30, WHITE);
-        DrawText("Powered by", logoX + 50, logoY - 7, 10, WHITE);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
