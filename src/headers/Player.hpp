@@ -10,14 +10,22 @@
 // 1 = moving
 // 2 = jumping
 
+enum State
+{
+    Idle,
+    Moving,
+    Jumping,
+    Falling
+};
+
 class Player
 {
 public:
     PhysicsBody physicsBody;
     SpriteController spriteController;
     Vector2 position{0, 0};
+    State playerState = Idle;
     int lookingDirection = 0;
-    int playerState = 0;
     bool jumpPressed = false;
 
     Player(raylib::Physics *physics)
@@ -30,51 +38,45 @@ public:
 
     void handleInput(const float velocity)
     {
-        int direction = 0;
-
         // Horizontal movement input
+        int direction = 0;
         if (IsKeyDown(KEY_RIGHT))
-        {
-            physicsBody->velocity.x = velocity;
-            direction = 1;
-        }
+            direction++;
         else if (IsKeyDown(KEY_LEFT))
-        {
-            physicsBody->velocity.x = -velocity;
-            direction = -1;
-        }
+            direction--;
 
-        // Vertical movement input checking if player physics body is grounded
+        // Vertical movement input & check if player physics body is grounded
         if (IsKeyDown(KEY_UP) && physicsBody->isGrounded && !jumpPressed)
         {
-            physicsBody->velocity.y = -velocity * 6;
+            physicsBody->velocity.y = -velocity * 1.5;
+            spriteController.setTrack(5); // Set idle track
             jumpPressed = true;
-        } else if(IsKeyUp(KEY_UP)) {
+            playerState = Jumping;
+        }
+        else if (IsKeyUp(KEY_UP))
+        {
             jumpPressed = false;
         }
 
-        // Animator state
-        if (direction == 0 && playerState == 1)
-        {
-            playerState = 0;
-            spriteController.setTrack(0); //idle track
-        }
-        else if (direction != 0 && playerState != 1)
-        {
-            playerState = 1;
-            spriteController.setTrack(1); //running track
-        }
+        // Apply movement
+        physicsBody->velocity.x = direction * velocity;
 
-        this->lookingDirection = direction;
-        spriteController.setDirection(this->lookingDirection);
+        // Animator
+        spriteController.setDirection(direction);
+        if (direction == 0 && playerState != Idle && physicsBody->isGrounded)
+        {
+            spriteController.setTrack(0); // Set idle track
+            playerState = Idle;
+        }
+        else if (direction != 0 && playerState != Moving && physicsBody->isGrounded)
+        {
+            spriteController.setTrack(1); // Set moving track
+            playerState = Moving;
+        }
     }
 
     void draw()
     {
-        std::cout << GetPhysicsShapeVertex(physicsBody, 0).x << std::endl;
-        // Vector2 spritePosition = {
-        //     physicsBody->position.x - physicsBody->shape.vertexData
-        // };
         int vertices = physicsBody->shape.vertexData.vertexCount;
         spriteController.draw(GetPhysicsShapeVertex(physicsBody, vertices - 1));
     }

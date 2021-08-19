@@ -37,6 +37,8 @@ int main(void)
     // Initialize physics and default physics bodies
     raylib::Physics physics;
 
+    physics.SetGravity(0,1.5);
+
     // Create floor and walls rectangle physics body
     PhysicsBody floor = physics.CreateBodyRectangle(Vector2{screenWidth / 2, screenHeight}, screenWidth, 100, 10);
     PhysicsBody platformLeft = physics.CreateBodyRectangle(Vector2{screenWidth * 0.25f, screenHeight * 0.8f}, screenWidth * 0.25f, 10, 10);

@@ -13,7 +13,7 @@ public:
     void update();
     void draw(Vector2 location);
 
-    void setTrack(int track);
+    void setTrack(int track, bool once = false);
     void setDirection(int direction);
     Rectangle getSpriteFrame();
     Vector2 getSpriteDimentions();

@@ -36,8 +36,8 @@ void SpriteController::draw(Vector2 location)
     DrawTextureRec(sprite, frameRec, location, WHITE);
 }
 
-void SpriteController::setTrack(int track)
-{
+void SpriteController::setTrack(int track, bool once)
+{    
     if (track < 0)
         currentTrack = 0;
     else if ((size_t)track >= tracks.size())
