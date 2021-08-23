@@ -25,6 +25,8 @@
 #include "headers/Player.hpp"
 #include "headers/characterStateMachine/machineStates.hpp"
 #include "headers/characterStateMachine/machine.hpp"
+#include "headers/characterStateMachine/characterStates.hpp"
+#include "headers/characterStateMachine/character.hpp"
 
 int main(void)
 {
@@ -58,6 +60,7 @@ int main(void)
     Player player(&physics);
     player.physicsBody->position = {screenWidth / 2, screenHeight / 2};
 
+    Character character;
     // ----------------------------------------------------------------------------------------------------------------------------- TRASH
 
     std::cout << "STATE MACHINE DEMO!" << std::endl;
@@ -83,6 +86,7 @@ int main(void)
 
         player.handleInput(0.2f);
         player.spriteController.update();
+        if (IsKeyDown(KEY_UP)) character.jumpInput(true);
         //----------------------------------------------------------------------------------
 
         // Draw
