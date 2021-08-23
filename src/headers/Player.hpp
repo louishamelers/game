@@ -48,7 +48,7 @@ public:
         // Vertical movement input & check if player physics body is grounded
         if (IsKeyDown(KEY_UP) && physicsBody->isGrounded && !jumpPressed)
         {
-            physicsBody->velocity.y = -velocity * 1.5;
+            physicsBody->velocity.y = -velocity * 2.5;
             spriteController.setTrack(5); // Set idle track
             jumpPressed = true;
             playerState = Jumping;
