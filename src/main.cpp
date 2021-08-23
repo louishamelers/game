@@ -25,6 +25,8 @@
 #include "headers/Player.hpp"
 #include "headers/characterStateMachine/character.hpp"
 
+void debugPhysicsBodies();
+
 int main(void)
 {
     // Initialization
@@ -37,28 +39,16 @@ int main(void)
 
     // Initialize physics and default physics bodies
     raylib::Physics physics;
-
-    physics.SetGravity(0,1.5);
+    physics.SetGravity(0, 1.5);
 
     // Create floor and walls rectangle physics body
     PhysicsBody floor = physics.CreateBodyRectangle(Vector2{screenWidth / 2, screenHeight}, screenWidth, 100, 10);
-    PhysicsBody platformLeft = physics.CreateBodyRectangle(Vector2{screenWidth * 0.25f, screenHeight * 0.8f}, screenWidth * 0.25f, 10, 10);
-    PhysicsBody platformRight = physics.CreateBodyRectangle(Vector2{screenWidth * 0.75f, screenHeight * 0.6f}, screenWidth * 0.25f, 10, 10);
-    PhysicsBody wallLeft = physics.CreateBodyRectangle(Vector2{-6, screenHeight / 2}, 10, screenHeight, 10);
-    PhysicsBody wallRight = physics.CreateBodyRectangle(Vector2{screenWidth + 5, screenHeight / 2}, 10, screenHeight, 10);
 
     // Disable dynamics to floor and walls physics bodies
     floor->enabled = false;
-    platformLeft->enabled = false;
-    platformRight->enabled = false;
-    wallLeft->enabled = false;
-    wallRight->enabled = false;
-
-    Player player(&physics);
-    player.physicsBody->position = {screenWidth / 2, screenHeight / 2};
 
     Character character;
-    
+
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
 
@@ -69,10 +59,8 @@ int main(void)
         //----------------------------------------------------------------------------------
         physics.RunStep();
 
-
-        player.handleInput(0.2f);
-        player.spriteController.update();
-        if (IsKeyDown(KEY_UP)) character.jumpInput(true);
+        if (IsKeyDown(KEY_UP))
+            character.jumpInput(true);
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -84,25 +72,7 @@ int main(void)
         DrawText("IDLE KING!", screenWidth / 2 - 120, 100, 50, LIGHTGRAY);
 
         // Draw created physics bodies
-        int bodiesCount = GetPhysicsBodiesCount();
-        for (int i = 0; i < bodiesCount; i++)
-        {
-            PhysicsBody body = GetPhysicsBody(i);
-
-            int vertexCount = GetPhysicsShapeVerticesCount(i);
-            for (int j = 0; j < vertexCount; j++)
-            {
-                // Get physics bodies shape vertices to draw lines
-                // Note: GetPhysicsShapeVertex() already calculates rotation transformations
-                Vector2 vertexA = GetPhysicsShapeVertex(body, j);
-
-                int jj = (((j + 1) < vertexCount) ? (j + 1) : 0); // Get next vertex or first to close the shape
-                Vector2 vertexB = GetPhysicsShapeVertex(body, jj);
-
-                DrawLineV(vertexA, vertexB, GREEN); // Draw a line between two vertex positions
-            }
-        }
-        player.draw();
+        debugPhysicsBodies();
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -116,4 +86,26 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     return 0;
+}
+
+void debugPhysicsBodies()
+{
+    int bodiesCount = GetPhysicsBodiesCount();
+    for (int i = 0; i < bodiesCount; i++)
+    {
+        PhysicsBody body = GetPhysicsBody(i);
+
+        int vertexCount = GetPhysicsShapeVerticesCount(i);
+        for (int j = 0; j < vertexCount; j++)
+        {
+            // Get physics bodies shape vertices to draw lines
+            // Note: GetPhysicsShapeVertex() already calculates rotation transformations
+            Vector2 vertexA = GetPhysicsShapeVertex(body, j);
+
+            int jj = (((j + 1) < vertexCount) ? (j + 1) : 0); // Get next vertex or first to close the shape
+            Vector2 vertexB = GetPhysicsShapeVertex(body, jj);
+
+            DrawLineV(vertexA, vertexB, GREEN); // Draw a line between two vertex positions
+        }
+    }
 }
