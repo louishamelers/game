@@ -67,8 +67,6 @@ int main(void)
     std::cout << m1.getStock() << std::endl;
     m1.sell(5);
     std::cout << m1.getStock() << std::endl;
-    m1.sell(5);
-    std::cout << m1.getStock() << std::endl;
 
     // ---------------------------------------------------------------------------------------------------------------------------- /TRASH
 
