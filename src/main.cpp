@@ -13,17 +13,22 @@ int main() {
     SetTargetFPS(60);
 
     Character pietje;
+    Character npc;
+    npc.setColor(BROWN);
+    npc.setPosition({240,240});
 
     // Main game loop
     while (!w.ShouldClose()) // Detect window close button or ESC key
     {
         // Update
         pietje.onUpdate();
+        npc.onUpdate();
 
         // Draw
         BeginDrawing();
         ClearBackground(RAYWHITE);
         pietje.onDraw();
+        npc.onDraw();
         EndDrawing();
     }
 
