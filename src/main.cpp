@@ -21,7 +21,6 @@
 #include <vector>
 #include <iostream>
 #include <raylib-cpp.hpp>
-#include <Physics.hpp>
 #include "headers/Player.hpp"
 #include "headers/characterStateMachine/character.hpp"
 
@@ -47,7 +46,7 @@ int main(void)
     // Disable dynamics to floor and walls physics bodies
     floor->enabled = false;
 
-    Character character;
+    Character character(&physics);
 
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
@@ -59,8 +58,19 @@ int main(void)
         //----------------------------------------------------------------------------------
         physics.RunStep();
 
+        // Vertical movement input
         if (IsKeyDown(KEY_UP))
             character.jumpInput(true);
+
+        
+        // Horizontal movement input
+        int direction = 0;
+        if (IsKeyDown(KEY_RIGHT))
+            direction++;
+        else if (IsKeyDown(KEY_LEFT))
+            direction--;
+        
+        character.movementInput(direction);
         //----------------------------------------------------------------------------------
 
         // Draw

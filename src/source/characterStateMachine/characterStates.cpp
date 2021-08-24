@@ -1,4 +1,6 @@
 #include "../../headers/characterStateMachine/characterStates.hpp"
+#include "../../headers/characterStateMachine/character.hpp"
+#include <Physics.hpp>
 #include <iostream>
 
 AbsCharState::~AbsCharState() = default;
@@ -16,6 +18,7 @@ Idle::~Idle() = default;
 
 void Idle::moveInput(Character &character, int direction) {
     if (direction != 0) std::cout << "moving\n";
+    setState(character, new Idle());
 }
 
 void Idle::jumpInput(Character &character, bool jump) {
