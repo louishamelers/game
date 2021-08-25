@@ -7,6 +7,7 @@
 Character::Character()
 {
     state = static_cast<AbsCharState *>(new Idle());
+    state->onEntry(*this);
     king = {position.x, position.y, 20, 20};
 }
 

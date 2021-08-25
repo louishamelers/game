@@ -16,6 +16,7 @@ int main() {
     Character npc;
     npc.setColor(BROWN);
     npc.setPosition({240,240});
+    npc.controllable = false;
 
     // Main game loop
     while (!w.ShouldClose()) // Detect window close button or ESC key

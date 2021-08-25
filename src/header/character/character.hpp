@@ -1,6 +1,6 @@
 #pragma once
 #include <Vector2.hpp>
-#include <entity.hpp>
+#include <entity/entity.hpp>
 
 class AbsCharState;
 
@@ -16,6 +16,8 @@ public:
     Vector2 getPosition();
     void setColor(Color color);
     ~Character();
+
+    bool controllable = true;
 
 private:
     AbsCharState *state;
