@@ -1,25 +1,25 @@
-#include <character/character.hpp>
-#include <character/characterStates.hpp>
+#include <player/player.hpp>
+#include <player/playerStates.hpp>
 #include <raylib-cpp.hpp>
 
 #include <iostream>
 
-Character::Character()
+Player::Player()
 {
-    state = static_cast<AbsCharState *>(new Idle());
+    state = static_cast<PlayerState *>(new Idle());
     state->onEntry(*this);
     spaceship = LoadTexture("assets/player.png");
 }
 
-Character::~Character() { delete state; }
+Player::~Player() { delete state; }
 
-void Character::onUpdate()
+void Player::onUpdate()
 {
     handleInput();
     state->onUpdate(*this);
 }
 
-void Character::onDraw()
+void Player::onDraw()
 {
     int frameWidth = spaceship.width;
     int frameHeight = spaceship.height;
@@ -29,7 +29,7 @@ void Character::onDraw()
     DrawTexturePro(spaceship, sourceRect, destRect, origin, rotation + 90, WHITE);
 }
 
-void Character::handleInput()
+void Player::handleInput()
 {
     // Rotation
     float delta_x = GetMousePosition().x - GetWorldToScreen2D(position, *camera).x;

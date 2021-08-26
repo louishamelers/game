@@ -1,13 +1,13 @@
-#include <character/character.hpp>
-#include <character/characterStates.hpp>
+#include <player/player.hpp>
+#include <player/playerStates.hpp>
 #include <iostream>
 #include <Vector2.hpp>
 
-AbsCharState::~AbsCharState() = default;
+PlayerState::~PlayerState() = default;
 
-void AbsCharState::setState(Character &character, AbsCharState *state)
+void PlayerState::setState(Player &character, PlayerState *state)
 {
-    AbsCharState *aux = character.state;
+    PlayerState *aux = character.state;
     character.state = state;
     state->onEntry(character);
     delete aux;
@@ -19,7 +19,7 @@ void AbsCharState::setState(Character &character, AbsCharState *state)
 //----------------------------------------------------------------------------------
 Idle::~Idle() = default;
 
-void Idle::onUpdate(Character &character)
+void Idle::onUpdate(Player &character)
 {
         Vector2 direction = {0, 0};
         if (IsKeyDown(KEY_RIGHT))
@@ -32,7 +32,7 @@ void Idle::onUpdate(Character &character)
             setState(character, new Moving({0, 1}));
 }
 
-void Idle::onEntry(Character &character)
+void Idle::onEntry(Player &character)
 {
     // character.setColor(GRAY);
 }
@@ -46,7 +46,7 @@ Moving::Moving(Vector2 direction)
     this->direction = direction;
 }
 
-void Moving::onUpdate(Character &character)
+void Moving::onUpdate(Player &character)
 {
     if (frames <= 20)
     {
@@ -61,7 +61,7 @@ void Moving::onUpdate(Character &character)
     }
 }
 
-void Moving::onEntry(Character &character)
+void Moving::onEntry(Player &character)
 {
     // character.setColor(GREEN);
 }
@@ -70,14 +70,14 @@ void Moving::onEntry(Character &character)
 //----------------------------------------------------------------------------------
 Triggered::~Triggered() = default;
 
-void Triggered::onUpdate(Character &character)
+void Triggered::onUpdate(Player &character)
 {
     frames++;
     if (frames >= 20)
         setState(character, new Idle());
 }
 
-void Triggered::onEntry(Character &character)
+void Triggered::onEntry(Player &character)
 {
     // character.setColor(RED);
 }

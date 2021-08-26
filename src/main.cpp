@@ -1,5 +1,5 @@
 #include <raylib-cpp.hpp>
-#include <character/character.hpp>
+#include <player/player.hpp>
 
 #include <iostream>
 
@@ -12,7 +12,7 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "HMmmM, OAH");
 
-    Character player;
+    Player player;
     Rectangle debree = Rectangle{30, 30, 30, 30};
 
     Camera2D camera = {0};
