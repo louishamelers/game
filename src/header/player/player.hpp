@@ -9,20 +9,21 @@ class Player : public Entity
 
 public:
     Player();
+    ~Player();
     void onUpdate();
     void onDraw();
-    ~Player();
+    void doMovement();
 
     raylib::Vector2 position = {0, 0};
     Camera2D *camera;
 
 private:
     void handleInput();
-
-    const int maxSpeed = 10;
+    void rotateToCursor();
 
     PlayerState *state;
     Texture2D spaceship;
-    int rotation;
+    float rotation;
+    float maxSpeed = 10;
     int acceleration = 0;
 };
