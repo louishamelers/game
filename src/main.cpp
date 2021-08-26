@@ -1,37 +1,65 @@
 #include <raylib-cpp.hpp>
-#include <character/character.hpp>
 
-int main() {
-    
+#define MAX_BUILDINGS 100
+
+int main(void)
+{
     // Initialization
-    int screenWidth = 800;
-    int screenHeight = 450;
+    //--------------------------------------------------------------------------------------
+    const int screenWidth = 800;
+    const int screenHeight = 450;
 
-    raylib::Color textColor(LIGHTGRAY);
-    raylib::Window w(screenWidth, screenHeight, "Raylib C++ Starter Kit Example");
-    
-    SetTargetFPS(60);
+    InitWindow(screenWidth, screenHeight, "HMmmM, OAH");
 
-    Character pietje;
-    Character npc;
-    npc.setColor(BROWN);
-    npc.setPosition({240,240});
-    npc.controllable = false;
+    Rectangle player = {0, 0, 40, 40};
+
+    Camera2D camera = {0};
+    camera.target = {0,0};
+    camera.offset = {(screenWidth / 2.0f) - 20, (screenHeight / 2.0f) - 20};
+    camera.rotation = 0.0f;
+    camera.zoom = 1.0f;
+
+    raylib::Vector2 offSet, lastMousePosition;
+
+    SetTargetFPS(60); // Set our game to run at 60 frames-per-second
+    //--------------------------------------------------------------------------------------
 
     // Main game loop
-    while (!w.ShouldClose()) // Detect window close button or ESC key
+    while (!WindowShouldClose()) // Detect window close button or ESC key
     {
         // Update
-        pietje.onUpdate();
-        npc.onUpdate();
+        //----------------------------------------------------------------------------------
+
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            lastMousePosition = GetMousePosition();
+        else if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+        {
+            offSet = ((raylib::Vector2)GetMousePosition() - lastMousePosition);
+            lastMousePosition = GetMousePosition();
+            camera.target = (raylib::Vector2)camera.target += (offSet * -1);
+        }
+        //----------------------------------------------------------------------------------
 
         // Draw
+        //----------------------------------------------------------------------------------
         BeginDrawing();
+
         ClearBackground(RAYWHITE);
-        pietje.onDraw();
-        npc.onDraw();
+
+        BeginMode2D(camera);
+
+        DrawRectangleRec(player, RED);
+
+        EndMode2D();
+
         EndDrawing();
+        //----------------------------------------------------------------------------------
     }
+
+    // De-Initialization
+    //--------------------------------------------------------------------------------------
+    CloseWindow(); // Close window and OpenGL context
+    //--------------------------------------------------------------------------------------
 
     return 0;
 }
