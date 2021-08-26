@@ -1,6 +1,7 @@
 #include <raylib-cpp.hpp>
+#include <character/character.hpp>
 
-#define MAX_BUILDINGS 100
+#include <iostream>
 
 int main(void)
 {
@@ -11,13 +12,16 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "HMmmM, OAH");
 
-    Rectangle player = {0, 0, 40, 40};
+    Character player;
+    Rectangle debree = Rectangle{30, 30, 30, 30};
 
     Camera2D camera = {0};
-    camera.target = {0,0};
+    camera.target = {0, 0};
     camera.offset = {(screenWidth / 2.0f) - 20, (screenHeight / 2.0f) - 20};
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
+
+    player.camera = &camera;
 
     raylib::Vector2 offSet, lastMousePosition;
 
@@ -30,14 +34,20 @@ int main(void)
         // Update
         //----------------------------------------------------------------------------------
 
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-            lastMousePosition = GetMousePosition();
-        else if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
-        {
-            offSet = ((raylib::Vector2)GetMousePosition() - lastMousePosition);
-            lastMousePosition = GetMousePosition();
-            camera.target = (raylib::Vector2)camera.target += (offSet * -1);
-        }
+        // if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        //     lastMousePosition = GetMousePosition();
+        // else if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+        // {
+        //     offSet = ((raylib::Vector2)GetMousePosition() - lastMousePosition);
+        //     lastMousePosition = GetMousePosition();
+        //     camera.target = (raylib::Vector2)camera.target += (offSet * -1);
+        // }
+        player.onUpdate();
+
+        raylib::Vector2 smooth = ((raylib::Vector2)camera.target - player.position) / 2;
+
+        camera.target = (raylib::Vector2)player.position + smooth;
+
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -48,7 +58,8 @@ int main(void)
 
         BeginMode2D(camera);
 
-        DrawRectangleRec(player, RED);
+        player.onDraw();
+        DrawRectangleRec(debree, RED);
 
         EndMode2D();
 

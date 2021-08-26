@@ -1,5 +1,4 @@
 #pragma once
-#include <Vector2.hpp>
 #include <entity/entity.hpp>
 
 class AbsCharState;
@@ -12,15 +11,18 @@ public:
     Character();
     void onUpdate();
     void onDraw();
-    void setPosition(Vector2 position);
-    Vector2 getPosition();
-    void setColor(Color color);
     ~Character();
 
-    bool controllable = true;
+    raylib::Vector2 position = {0, 0};
+    Camera2D *camera;
 
 private:
+    void handleInput();
+
+    const int maxSpeed = 10;
+
     AbsCharState *state;
-    Rectangle king;
-    Color color;
+    Texture2D spaceship;
+    int rotation;
+    int acceleration = 0;
 };

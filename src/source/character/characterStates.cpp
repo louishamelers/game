@@ -21,8 +21,6 @@ Idle::~Idle() = default;
 
 void Idle::onUpdate(Character &character)
 {
-    if (character.controllable)
-    {
         Vector2 direction = {0, 0};
         if (IsKeyDown(KEY_RIGHT))
             setState(character, new Moving({1, 0}));
@@ -32,12 +30,11 @@ void Idle::onUpdate(Character &character)
             setState(character, new Moving({0, -1}));
         if (IsKeyDown(KEY_DOWN))
             setState(character, new Moving({0, 1}));
-    }
 }
 
 void Idle::onEntry(Character &character)
 {
-    character.setColor(GRAY);
+    // character.setColor(GRAY);
 }
 
 // Moving state
@@ -53,10 +50,9 @@ void Moving::onUpdate(Character &character)
 {
     if (frames <= 20)
     {
-        Vector2 newPosition = character.getPosition();
+        Vector2 newPosition = character.position;
         newPosition.x += direction.x;
         newPosition.y += direction.y;
-        character.setPosition(newPosition);
         frames++;
     }
     else
@@ -67,7 +63,7 @@ void Moving::onUpdate(Character &character)
 
 void Moving::onEntry(Character &character)
 {
-    character.setColor(GREEN);
+    // character.setColor(GREEN);
 }
 
 // Triggered state
@@ -83,5 +79,5 @@ void Triggered::onUpdate(Character &character)
 
 void Triggered::onEntry(Character &character)
 {
-    character.setColor(RED);
+    // character.setColor(RED);
 }
