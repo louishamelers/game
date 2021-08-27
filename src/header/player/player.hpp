@@ -1,5 +1,7 @@
 #pragma once
-#include <entity/entity.hpp>
+#include <util/entity.hpp>
+#include <vector>
+#include <projectile/projectile.hpp>
 
 class PlayerState;
 
@@ -13,8 +15,8 @@ public:
     void onUpdate();
     void onDraw();
     void doMovement();
+    void shoota();
 
-    raylib::Vector2 position = {0, 0};
     Camera2D *camera;
 
 private:
@@ -26,4 +28,5 @@ private:
     float rotation;
     float maxSpeed = 10;
     int acceleration = 0;
+    std::vector<Projectile> bullets;
 };

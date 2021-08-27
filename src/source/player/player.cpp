@@ -18,10 +18,12 @@ void Player::onUpdate()
     rotateToCursor();
     handleInput();
     doMovement();
+    for (auto& projectile: bullets) projectile.onUpdate();
 }
 
 void Player::onDraw()
 {
+    for (auto& projectile: bullets) projectile.onDraw();
     int frameWidth = spaceship.width;
     int frameHeight = spaceship.height;
     Rectangle sourceRect = {0, 0, frameWidth, frameHeight};
@@ -51,5 +53,11 @@ void Player::handleInput()
     if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON) && acceleration <= maxSpeed) acceleration++;
     else if (IsMouseButtonUp(MOUSE_RIGHT_BUTTON)) acceleration /= 1.5;
     // Shooting
-    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) state->shoot(*this);
+    // if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) state->shoot(*this);
+    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) shoota();
+}
+
+void Player::shoota() {
+    Projectile bullet(position, rotation, this, 4);
+    bullets.push_back(bullet);
 }
