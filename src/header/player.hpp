@@ -1,7 +1,7 @@
 #pragma once
-#include <util/entity.hpp>
+#include <entity/entity.hpp>
 #include <vector>
-#include <projectile/projectile.hpp>
+#include <projectile.hpp>
 
 class PlayerState;
 

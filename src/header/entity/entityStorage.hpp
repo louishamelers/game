@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <util/entity.hpp>
+#include <entity/entity.hpp>
 
 class EntityStorage
 {
@@ -12,4 +12,5 @@ public:
     static void add(class Entity* entity);
 private:
     static std::vector<Entity *> entities;
+    static std::vector<Entity *> buffer;
 };

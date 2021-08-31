@@ -1,4 +1,4 @@
-#include <camera/smoothCamera.hpp>
+#include <smoothCamera.hpp>
 
 SmoothCamera::SmoothCamera()
 {

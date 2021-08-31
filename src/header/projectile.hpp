@@ -1,5 +1,5 @@
 #pragma once
-#include <util/entity.hpp>
+#include <entity/entity.hpp>
 #include <Vector2.hpp>
 
 class Projectile : public Entity
@@ -14,6 +14,8 @@ private:
     float direction;
     int power;
 };
+
+// ---------------- Exhaust
 
 class ExhaustParticle : public Projectile
 {
@@ -30,6 +32,8 @@ private:
     int speed = 1;
     int power = 8;
 };
+
+// ---------------- Bullet
 
 class Bullet : public Projectile
 {

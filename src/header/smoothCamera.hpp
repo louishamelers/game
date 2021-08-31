@@ -1,7 +1,7 @@
 #pragma once
 #include <raylib-cpp.hpp>
 #include <Vector2.hpp>
-#include <util/entity.hpp>
+#include <entity/entity.hpp>
 
 class SmoothCamera : public Entity
 {

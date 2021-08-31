@@ -1,14 +1,12 @@
 #include <raylib-cpp.hpp>
-#include <player/player.hpp>
-#include <projectile/projectileStorage.hpp>
-#include <camera/smoothCamera.hpp>
-#include <util/entityStorage.hpp>
+#include <player.hpp>
+#include <smoothCamera.hpp>
+#include <entity/entityStorage.hpp>
 
 #include <iostream>
 
 void update();
 void draw();
-SmoothCamera camera;
 
 int main(void)
 {
@@ -19,6 +17,7 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "Floin'");
 
+    SmoothCamera camera;
     camera.setup(screenWidth, screenHeight);
 
     Player player(camera.getCamera());
@@ -34,7 +33,6 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        ProjectileStorage().onUpdate();
         EntityStorage().updateEntities();
 
         // Draw
@@ -45,7 +43,6 @@ int main(void)
 
         BeginMode2D(*camera.getCamera());
 
-        ProjectileStorage().onDraw();
         EntityStorage().drawEntities();
 
         EndMode2D();

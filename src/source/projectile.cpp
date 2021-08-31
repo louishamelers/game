@@ -1,7 +1,9 @@
-#include <projectile/projectile.hpp>
+#include <projectile.hpp>
 #include <raylib-cpp.hpp>
 
 #include <iostream>
+
+// ---------------- Exhaust
 
 ExhaustParticle::ExhaustParticle(Vector2 startPosition, float direction, Entity *origin)
 {
@@ -32,6 +34,8 @@ bool ExhaustParticle::isDead()
 {
     return power <= 0;
 }
+
+// ---------------- Bullet
 
 Bullet::Bullet(Vector2 startPosition, float direction, Entity *origin)
 {

@@ -1,6 +1,6 @@
-#include <player/player.hpp>
+#include <player.hpp>
 #include <raylib-cpp.hpp>
-#include <projectile/projectileStorage.hpp>
+#include <entity/entityStorage.hpp>
 
 #include <iostream>
 
@@ -47,7 +47,7 @@ void Player::doMovement()
     position.y = new_y;
 
     if (acceleration != 0)
-        ProjectileStorage().add(new ExhaustParticle(position, rotation - 180, this));
+        EntityStorage().add(new ExhaustParticle(position, rotation - 180, this));
 }
 
 void Player::handleInput()
@@ -66,7 +66,7 @@ void Player::shoot()
 {
     if (shootRecoilTime <= 0)
     {
-        ProjectileStorage().add(new Bullet(position, rotation, this));
+        EntityStorage().add(new Bullet(position, rotation, this));
         shootRecoilTime = fireSpeed;
     }
     else
