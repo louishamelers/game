@@ -1,20 +1,20 @@
 #include <projectile/projectile.hpp>
 #include <raylib-cpp.hpp>
 
+#include <iostream>
 
-Projectile::Projectile(Vector2 startPosition, float direction, Entity *origin, int speed, int power)
+ExhaustParticle::ExhaustParticle(Vector2 startPosition, float direction, Entity *origin)
 {
     position = startPosition;
     this->direction = direction;
-    this->speed = speed;
-    this->power = power;
 }
 
-Projectile::~Projectile()
+ExhaustParticle::~ExhaustParticle()
 {
 }
 
-void Projectile::onUpdate() {
+void ExhaustParticle::onUpdate()
+{
     float new_x = position.x + speed * cos(direction * PI / 180);
     float new_y = position.y + speed * sin(direction * PI / 180);
     position.x = new_x;
@@ -22,7 +22,42 @@ void Projectile::onUpdate() {
     power--;
 }
 
-void Projectile::onDraw() {
+void ExhaustParticle::onDraw()
+{
     DrawCircle(position.x, position.y, power, ORANGE);
-    DrawCircle(position.x, position.y, power-2, YELLOW);
+    DrawCircle(position.x, position.y, power - 2, YELLOW);
+}
+
+bool ExhaustParticle::isDead()
+{
+    return power <= 0;
+}
+
+Bullet::Bullet(Vector2 startPosition, float direction, Entity *origin)
+{
+    position = startPosition;
+    this->direction = direction;
+}
+
+Bullet::~Bullet()
+{
+}
+
+void Bullet::onUpdate()
+{
+    float new_x = position.x + speed * cos(direction * PI / 180);
+    float new_y = position.y + speed * sin(direction * PI / 180);
+    position.x = new_x;
+    position.y = new_y;
+    power--;
+}
+
+void Bullet::onDraw()
+{
+    DrawCircle(position.x, position.y, 3, {252, 252, 61, 255});
+}
+
+bool Bullet::isDead()
+{
+    return power <= 0;
 }

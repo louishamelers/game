@@ -15,7 +15,7 @@ Player(Camera2D *camera);
     void onUpdate();
     void onDraw();
     void doMovement();
-    void shoota();
+    void shoot();
 
 
 private:
@@ -23,10 +23,10 @@ private:
     void rotateToCursor();
 
     Camera2D *camera;
-    PlayerState *state;
     Texture2D spaceship;
     float rotation;
     float maxSpeed = 10;
     int acceleration = 0;
-    std::vector<Projectile> bullets;
+    int fireSpeed = 20;
+    int shootRecoilTime;
 };

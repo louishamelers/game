@@ -14,7 +14,7 @@ void ProjectileStorage::onUpdate()
     for (auto it = projectiles.begin(); it != projectiles.end();)
     {
         (*it)->onUpdate();
-        if ((*it)->power <= 0)
+        if ((*it)->isDead())
         {
             Projectile *ref = *it;
             projectiles.erase(it);

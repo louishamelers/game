@@ -1,5 +1,4 @@
 #include <player/player.hpp>
-#include <player/playerStates.hpp>
 #include <raylib-cpp.hpp>
 #include <projectile/projectileStorage.hpp>
 
@@ -7,25 +6,21 @@
 
 Player::Player(Camera2D *camera)
 {
-    state = static_cast<PlayerState *>(new Healthy());
-    state->onEntry(*this);
     spaceship = LoadTexture("assets/player.png");
     this->camera = camera;
 }
 
-Player::~Player() { delete state; }
+Player::~Player() { }
 
 void Player::onUpdate()
 {
     rotateToCursor();
     handleInput();
     doMovement();
-    for (auto& projectile: bullets) projectile.onUpdate();
 }
 
 void Player::onDraw()
 {
-    for (auto& projectile: bullets) projectile.onDraw();
     int frameWidth = spaceship.width;
     int frameHeight = spaceship.height;
     Rectangle sourceRect = {0, 0, frameWidth, frameHeight};
@@ -48,12 +43,7 @@ void Player::doMovement() {
     position.x = new_x;
     position.y = new_y;
     
-    if (acceleration != 0) {
-        ProjectileStorage pStorage;
-        Projectile *bullet = new Projectile(position, rotation-180, this, 1);
-        bullet->power = 8;
-        pStorage.add(bullet);
-    }
+    if (acceleration != 0) ProjectileStorage().add(new ExhaustParticle(position, rotation-180, this));
 }
 
 void Player::handleInput()
@@ -62,12 +52,14 @@ void Player::handleInput()
     if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON) && acceleration <= maxSpeed) acceleration++;
     else if (IsMouseButtonUp(MOUSE_RIGHT_BUTTON)) acceleration /= 1.5;
     // Shooting
-    // if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) state->shoot(*this);
-    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) shoota();
+    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) shoot();
 }
 
-void Player::shoota() {
-    Projectile *bullet = new Projectile(position, rotation, this, 4);
-    ProjectileStorage pStorage;
-    pStorage.add(bullet);
+void Player::shoot() {
+    if (shootRecoilTime <= 0) {
+    ProjectileStorage().add(new Bullet(position, rotation, this));
+    shootRecoilTime = fireSpeed;
+    } else {
+        shootRecoilTime--;
+    }
 }

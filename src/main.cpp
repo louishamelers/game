@@ -8,8 +8,8 @@ int main(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 1250;
+    const int screenHeight = 720;
 
     InitWindow(screenWidth, screenHeight, "HMmmM, OAH");
 
@@ -48,7 +48,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground({ 0, 4, 23, 255 });
 
         BeginMode2D(camera);
 
