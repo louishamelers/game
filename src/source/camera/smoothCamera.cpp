@@ -18,6 +18,8 @@ void SmoothCamera::onDraw() {
     
 }
 
+bool SmoothCamera::isDead() {return false; }
+
 void SmoothCamera::setup(int screenWidth, int screenHeight)
 {
     camera.target = {0, 0};

@@ -10,6 +10,7 @@ public:
     ~ProjectileStorage();
     void onUpdate();
     void onDraw();
+    bool isDead();
     static void add(class Projectile* projectile);
     void prune();
 private:

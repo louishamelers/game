@@ -10,6 +10,7 @@ public:
     ~SmoothCamera();
     void onUpdate();
     void onDraw();
+    bool isDead();
     void setup(int screenWidth, int screenHeight);
     void setTarget(Vector2 *targetPosition);
     Camera2D* getCamera();

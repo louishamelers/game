@@ -10,6 +10,12 @@ void EntityStorage::add(Entity* entity) {
     entities.push_back(entity);
 }
 
-std::vector<Entity *>* EntityStorage::getEntities() {
-    return &entities;
+void EntityStorage::updateEntities() {
+    for (Entity *entity : entities)
+        entity->onUpdate();
+}
+
+void EntityStorage::drawEntities() {
+    for (Entity *entity : entities)
+        entity->onDraw();
 }

@@ -29,6 +29,8 @@ void Player::onDraw()
     DrawTexturePro(spaceship, sourceRect, destRect, origin, rotation + 90, WHITE);
 }
 
+bool Player::isDead() { return false; }
+
 void Player::rotateToCursor()
 {
     float delta_x = GetMousePosition().x - GetWorldToScreen2D(position, *camera).x;

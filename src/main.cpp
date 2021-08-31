@@ -34,11 +34,23 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        update();
+        ProjectileStorage().onUpdate();
+        EntityStorage().updateEntities();
 
         // Draw
         //----------------------------------------------------------------------------------
-        draw();
+        BeginDrawing();
+
+        ClearBackground({0, 4, 23, 255});
+
+        BeginMode2D(*camera.getCamera());
+
+        ProjectileStorage().onDraw();
+        EntityStorage().drawEntities();
+
+        EndMode2D();
+
+        EndDrawing();
     }
 
     // De-Initialization
@@ -46,28 +58,4 @@ int main(void)
     CloseWindow(); // Close window and OpenGL context
 
     return 0;
-}
-
-void update()
-{
-    ProjectileStorage().onUpdate();
-    for (Entity *entity : *EntityStorage().getEntities())
-        entity->onUpdate();
-}
-
-void draw()
-{
-    BeginDrawing();
-
-    ClearBackground({0, 4, 23, 255});
-
-    BeginMode2D(*camera.getCamera());
-
-    ProjectileStorage().onDraw();
-    for (Entity *entity : *EntityStorage().getEntities())
-        entity->onDraw();
-
-    EndMode2D();
-
-    EndDrawing();
 }

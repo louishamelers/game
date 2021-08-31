@@ -7,7 +7,8 @@ class EntityStorage
 public:
     EntityStorage(/* args */);
     ~EntityStorage();
-    static std::vector<Entity *>* getEntities();
+    static void updateEntities();
+    static void drawEntities();
     static void add(class Entity* entity);
 private:
     static std::vector<Entity *> entities;

@@ -35,3 +35,8 @@ void ProjectileStorage::add(Projectile *projectile)
 {
     projectiles.push_back(projectile);
 }
+
+bool ProjectileStorage::isDead()
+{
+    return false;
+}

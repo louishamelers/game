@@ -14,6 +14,7 @@ Player(Camera2D *camera);
     ~Player();
     void onUpdate();
     void onDraw();
+    bool isDead();
     void doMovement();
     void shoot();
 
