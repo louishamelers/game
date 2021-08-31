@@ -1,15 +1,17 @@
 #pragma once
 #include <raylib-cpp.hpp>
 #include <Vector2.hpp>
+#include <util/entity.hpp>
 
-class SmoothCamera
+class SmoothCamera : public Entity
 {
 public:
     SmoothCamera();
     ~SmoothCamera();
+    void onUpdate();
+    void onDraw();
     void setup(int screenWidth, int screenHeight);
     void setTarget(Vector2 *targetPosition);
-    void onUpdate();
     Camera2D* getCamera();
 
 private:

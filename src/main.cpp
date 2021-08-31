@@ -24,6 +24,7 @@ int main(void)
     Player player(camera.getCamera());
     camera.setTarget(&player.position);
     EntityStorage().add(&player);
+    EntityStorage().add(&camera);
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -34,7 +35,6 @@ int main(void)
         // Update
         //----------------------------------------------------------------------------------
         update();
-        camera.onUpdate();
 
         // Draw
         //----------------------------------------------------------------------------------
