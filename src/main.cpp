@@ -1,5 +1,6 @@
 #include <raylib-cpp.hpp>
 #include <player/player.hpp>
+#include <projectile/projectileStorage.hpp>
 
 #include <iostream>
 
@@ -12,16 +13,16 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "HMmmM, OAH");
 
-    Player player;
-    Rectangle debree = Rectangle{30, 30, 30, 30};
-
     Camera2D camera = {0};
     camera.target = {0, 0};
     camera.offset = {(screenWidth / 2.0f) - 20, (screenHeight / 2.0f) - 20};
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
-    player.camera = &camera;
+    Player player(&camera);
+    Rectangle debree = Rectangle{30, 30, 30, 30};
+
+    ProjectileStorage pStorage;
 
     raylib::Vector2 offSet, lastMousePosition;
 
@@ -34,15 +35,8 @@ int main(void)
         // Update
         //----------------------------------------------------------------------------------
 
-        // if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        //     lastMousePosition = GetMousePosition();
-        // else if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
-        // {
-        //     offSet = ((raylib::Vector2)GetMousePosition() - lastMousePosition);
-        //     lastMousePosition = GetMousePosition();
-        //     camera.target = (raylib::Vector2)camera.target += (offSet * -1);
-        // }
         player.onUpdate();
+        pStorage.onUpdate();
 
         raylib::Vector2 smooth = ((raylib::Vector2)camera.target - player.position) / 2;
 
@@ -58,6 +52,7 @@ int main(void)
 
         BeginMode2D(camera);
 
+        pStorage.onDraw();
         player.onDraw();
         DrawRectangleRec(debree, RED);
 

@@ -1,14 +1,16 @@
 #include <player/player.hpp>
 #include <player/playerStates.hpp>
 #include <raylib-cpp.hpp>
+#include <projectile/projectileStorage.hpp>
 
 #include <iostream>
 
-Player::Player()
+Player::Player(Camera2D *camera)
 {
     state = static_cast<PlayerState *>(new Healthy());
     state->onEntry(*this);
     spaceship = LoadTexture("assets/player.png");
+    this->camera = camera;
 }
 
 Player::~Player() { delete state; }
@@ -45,6 +47,13 @@ void Player::doMovement() {
     float new_y = position.y + acceleration * sin(rotation * PI / 180);
     position.x = new_x;
     position.y = new_y;
+    
+    if (acceleration != 0) {
+        ProjectileStorage pStorage;
+        Projectile *bullet = new Projectile(position, rotation-180, this, 1);
+        bullet->power = 8;
+        pStorage.add(bullet);
+    }
 }
 
 void Player::handleInput()
@@ -58,6 +67,7 @@ void Player::handleInput()
 }
 
 void Player::shoota() {
-    Projectile bullet(position, rotation, this, 4);
-    bullets.push_back(bullet);
+    Projectile *bullet = new Projectile(position, rotation, this, 4);
+    ProjectileStorage pStorage;
+    pStorage.add(bullet);
 }

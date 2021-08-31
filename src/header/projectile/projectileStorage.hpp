@@ -1,12 +1,15 @@
 #pragma once
 #include <vector>
-#include <projectiles/projectile.hpp>
+#include <projectile/projectile.hpp>
+#include <util/entity.hpp>
 
-class projectileStorage
+class ProjectileStorage : public Entity
 {
 public:
-    projectileStorage();
-    ~projectileStorage();
+    ProjectileStorage();
+    ~ProjectileStorage();
+    void onUpdate();
+    void onDraw();
     static void add(class Projectile* projectile);
     static void add(const std::vector<Projectile*>& newProjectiles);
     void prune();

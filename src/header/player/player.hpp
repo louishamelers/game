@@ -10,19 +10,19 @@ class Player : public Entity
     friend class PlayerState;
 
 public:
-    Player();
+Player(Camera2D *camera);
     ~Player();
     void onUpdate();
     void onDraw();
     void doMovement();
     void shoota();
 
-    Camera2D *camera;
 
 private:
     void handleInput();
     void rotateToCursor();
 
+    Camera2D *camera;
     PlayerState *state;
     Texture2D spaceship;
     float rotation;
