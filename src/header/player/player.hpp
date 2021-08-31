@@ -28,5 +28,5 @@ private:
     float maxSpeed = 10;
     int acceleration = 0;
     int fireSpeed = 20;
-    int shootRecoilTime;
+    int shootRecoilTime = 0;
 };

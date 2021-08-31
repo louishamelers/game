@@ -10,7 +10,7 @@ Player::Player(Camera2D *camera)
     this->camera = camera;
 }
 
-Player::~Player() { }
+Player::~Player() {}
 
 void Player::onUpdate()
 {
@@ -37,29 +37,38 @@ void Player::rotateToCursor()
     rotation = cursorAngle;
 }
 
-void Player::doMovement() {
+void Player::doMovement()
+{
     float new_x = position.x + acceleration * cos(rotation * PI / 180);
     float new_y = position.y + acceleration * sin(rotation * PI / 180);
     position.x = new_x;
     position.y = new_y;
-    
-    if (acceleration != 0) ProjectileStorage().add(new ExhaustParticle(position, rotation-180, this));
+
+    if (acceleration != 0)
+        ProjectileStorage().add(new ExhaustParticle(position, rotation - 180, this));
 }
 
 void Player::handleInput()
 {
     // Acceleration
-    if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON) && acceleration <= maxSpeed) acceleration++;
-    else if (IsMouseButtonUp(MOUSE_RIGHT_BUTTON)) acceleration /= 1.5;
+    if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON) && acceleration <= maxSpeed)
+        acceleration++;
+    else if (IsMouseButtonUp(MOUSE_RIGHT_BUTTON))
+        acceleration /= 1.5;
     // Shooting
-    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) shoot();
+    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+        shoot();
 }
 
-void Player::shoot() {
-    if (shootRecoilTime <= 0) {
-    ProjectileStorage().add(new Bullet(position, rotation, this));
-    shootRecoilTime = fireSpeed;
-    } else {
+void Player::shoot()
+{
+    if (shootRecoilTime <= 0)
+    {
+        ProjectileStorage().add(new Bullet(position, rotation, this));
+        shootRecoilTime = fireSpeed;
+    }
+    else
+    {
         shootRecoilTime--;
     }
 }
