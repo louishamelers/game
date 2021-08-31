@@ -2,8 +2,13 @@
 #include <player/player.hpp>
 #include <projectile/projectileStorage.hpp>
 #include <camera/smoothCamera.hpp>
+#include <util/entityStorage.hpp>
 
 #include <iostream>
+
+void update();
+void draw();
+SmoothCamera camera;
 
 int main(void)
 {
@@ -14,10 +19,11 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "Floin'");
 
-    SmoothCamera camera;
     camera.setup(screenWidth, screenHeight);
 
     Player player(camera.getCamera());
+    camera.setTarget(&player.position);
+    EntityStorage().add(&player);
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -27,25 +33,12 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-
-        player.onUpdate();
-        ProjectileStorage().onUpdate();
-        camera.followTarget(player.position);
+        update();
+        camera.onUpdate();
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
-
-        ClearBackground({0, 4, 23, 255});
-
-        BeginMode2D(*camera.getCamera());
-
-        ProjectileStorage().onDraw();
-        player.onDraw();
-
-        EndMode2D();
-
-        EndDrawing();
+        draw();
     }
 
     // De-Initialization
@@ -53,4 +46,28 @@ int main(void)
     CloseWindow(); // Close window and OpenGL context
 
     return 0;
+}
+
+void update()
+{
+    ProjectileStorage().onUpdate();
+    for (Entity *entity : *EntityStorage().getEntities())
+        entity->onUpdate();
+}
+
+void draw()
+{
+    BeginDrawing();
+
+    ClearBackground({0, 4, 23, 255});
+
+    BeginMode2D(*camera.getCamera());
+
+    ProjectileStorage().onDraw();
+    for (Entity *entity : *EntityStorage().getEntities())
+        entity->onDraw();
+
+    EndMode2D();
+
+    EndDrawing();
 }

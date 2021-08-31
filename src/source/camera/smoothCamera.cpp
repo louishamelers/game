@@ -17,10 +17,14 @@ void SmoothCamera::setup(int screenWidth, int screenHeight)
     camera.zoom = 1.0f;
 }
 
-void SmoothCamera::followTarget(Vector2 targetPosition)
+void SmoothCamera::onUpdate() {
+    raylib::Vector2 smooth = ((raylib::Vector2)camera.target - *target) / 2;
+    camera.target = (raylib::Vector2)*target + smooth;
+}
+
+void SmoothCamera::setTarget(Vector2 *targetPosition)
 {
-    raylib::Vector2 smooth = ((raylib::Vector2)camera.target - targetPosition) / 2;
-    camera.target = (raylib::Vector2)targetPosition + smooth;
+    target = targetPosition;
 }
 
 Camera2D *SmoothCamera::getCamera()
