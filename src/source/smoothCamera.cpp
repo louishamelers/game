@@ -23,7 +23,7 @@ bool SmoothCamera::isDead() {return false; }
 void SmoothCamera::setup(int screenWidth, int screenHeight)
 {
     camera.target = {0, 0};
-    camera.offset = {(screenWidth / 2.0f) - 20, (screenHeight / 2.0f) - 20};
+    camera.offset = {(screenWidth / 2.0f), (screenHeight / 2.0f)};
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 }
