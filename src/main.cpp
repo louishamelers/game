@@ -2,6 +2,7 @@
 #include <player.hpp>
 #include <smoothCamera.hpp>
 #include <entity/entityStorage.hpp>
+#include <starMap.hpp>
 
 #include <iostream>
 
@@ -22,8 +23,13 @@ int main(void)
 
     Player player(camera.getCamera());
     camera.setTarget(&player.position);
-    EntityStorage().add(&player);
+
+    StarMap starMap(camera.getCamera(), screenWidth, screenHeight);
+
     EntityStorage().add(&camera);
+    EntityStorage().add(&player);
+
+    Rectangle rec{20, 20, 20, 20};
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -34,6 +40,7 @@ int main(void)
         // Update
         //----------------------------------------------------------------------------------
         EntityStorage().updateEntities();
+        starMap.onUpdate();
 
         // Draw
         //----------------------------------------------------------------------------------
@@ -41,8 +48,13 @@ int main(void)
 
         ClearBackground({0, 4, 23, 255});
 
+        DrawFPS(screenWidth - 90, screenHeight - 30);
+
+        starMap.onDraw();
+
         BeginMode2D(*camera.getCamera());
 
+        DrawRectangleRec(rec, RED);
         EntityStorage().drawEntities();
 
         EndMode2D();
