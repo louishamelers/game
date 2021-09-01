@@ -9,7 +9,10 @@ StarMap::StarMap(Camera2D *camera, int screenWidth, int screenHeight)
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
     this->lastCameraPosition = camera->target;
-    addStars({camera->offset.x * -1, camera->offset.y * -1, camera->offset.x * 2, camera->offset.y * 2});
+    addStars({(camera->offset.x * -1) - bufferSize,
+              (camera->offset.y * -1) - bufferSize,
+              (camera->offset.x * 2) + bufferSize * 2,
+              (camera->offset.y * 2) + bufferSize * 2});
 }
 
 StarMap::~StarMap()
@@ -18,7 +21,19 @@ StarMap::~StarMap()
 
 void StarMap::onUpdate()
 {
-    
+    // Vector2 delta = (raylib::Vector2)camera->target - lastCameraPosition;
+    // if (delta.x > 0) {
+    //     delta.x += screenWidth/2;
+    // } else if (delta.x < 0) {
+    //     delta.x -= screenWidth/2;
+    // }
+    // if (delta.y > 0)
+    // {
+    //     delta.y += screenHeight / 2;
+    // } else if (delta.y < 0) {
+    //     delta.y -= screenHeight / 2;
+    // }
+    // lastCameraPosition = camera->target;
 }
 
 void StarMap::onDraw()
@@ -28,7 +43,7 @@ void StarMap::onDraw()
         Vector2 pos = {
             star.position.x + camera->offset.x - camera->target.x / distance,
             star.position.y + camera->offset.y - camera->target.y / distance};
-        DrawCircle(pos.x, pos.y, 65, {255, 255, 255, 1});
+        DrawCircle(pos.x, pos.y, bufferSize*2, {255, 255, 255, 1});
         DrawCircle(pos.x, pos.y, 2, {255, 255, 255, (unsigned char)star.brightness});
     }
 }
@@ -49,8 +64,7 @@ void StarMap::addStars(Rectangle area)
     {
         Star star{
             {distr_x(generator) + area.x, distr_y(generator) + area.y},
-            distr_brightness(generator)
-        };
+            distr_brightness(generator)};
         stars.push_back(star);
     }
 }

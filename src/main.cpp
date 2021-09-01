@@ -16,7 +16,7 @@ int main(void)
     const int screenWidth = 1250;
     const int screenHeight = 720;
 
-    InitWindow(screenWidth, screenHeight, "Floin'");
+    InitWindow(screenWidth, screenHeight, "IDLE SPACE");
 
     SmoothCamera camera;
     camera.setup(screenWidth, screenHeight);

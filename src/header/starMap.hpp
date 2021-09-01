@@ -28,6 +28,7 @@ private:
     Vector2 lastCameraPosition;
     int distance = 20;
     int reverseDensity = 10000 / 2;
+    int bufferSize = 35;
     int screenWidth;
     int screenHeight;
 };
