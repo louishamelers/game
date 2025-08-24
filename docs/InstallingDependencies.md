@@ -31,6 +31,12 @@ $ sudo dnf check-update
 $ sudo dnf install git-all
 ```
 
+#### Arch Linux
+```console
+$ sudo pacman -Sy
+$ sudo pacman -S git
+```
+
 ### Installing G++ & Make
 Some Linux distributions do not come preinstalled with the basic build tools required to do C/C++ development. In the case that you do not have them and you're on a Debian-based system, you can install them all with one very handy meta-package aptly named `build-essential`. Otherwise if you're using Fedora, you can install them each individually. Run the following lines to install them:
 
@@ -44,6 +50,12 @@ $ sudo apt install build-essential
 ```console
 $ sudo dnf check-update
 $ sudo dnf install make automake gcc gcc-c++ kernel-devel
+```
+
+#### Arch Linux
+```console
+$ sudo pacman -Sy
+$ sudo pacman -S base-devel
 ```
 
 After installing the package, you should have both G++ and Make installed. You can verify this by running:
@@ -69,6 +81,12 @@ $ sudo apt install libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi
 ```console
 $ sudo dnf check-update
 $ sudo dnf install alsa-lib-devel mesa-libGL-devel libX11-devel libXrandr-devel libXi-devel libXcursor-devel libXinerama-devel
+```
+
+#### Arch Linux
+```console
+$ sudo pacman -Sy
+$ sudo pacman -S alsa-lib mesa libx11 libxrandr libxi libxcursor libxinerama
 ```
 
 ## Windows
